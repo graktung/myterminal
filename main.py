@@ -119,13 +119,22 @@ def progressCommand(cmd):
     elif cmd == 'exit':
         sys.exit(0)
     elif cmd == 'pwd':
-        return [mydirectory.getPWD()]
+        path = mydirectory.getPWD()
+        path = path.split('\\')
+        path = '/'.join(path)
+        return [path]
     elif cmd == 'ls':
         return mydirectory.getList()
     elif cmd.startswith('cd'):
         direc = cmd.replace('cd ', '')
-        mydirectory.changePWD(direc)
-        return []
+        try:
+            mydirectory.changePWD(direc)
+            return []
+        except:
+            path = mydirectory.getPWD() + f'\\{direc}'
+            path = path.split('\\')
+            path = '/'.join(path)
+            return ["Error!", "Cannot find path %r" %(path)]
     else:
         return ['%r not found.' %(cmd)]
 
