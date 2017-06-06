@@ -25,7 +25,7 @@ colorCur = listColor.pop(listColor.index(random.choice(listColor)))
 
 content = []
 listCommand = []
-indexListCommand = -1
+indexListCommand = 0
 contentLineCurrent = ''
 contentLineCurrentDisplay = '|'
 posCursor = 0
@@ -137,36 +137,35 @@ while 1:
             if newChar not in ('backspace', 'tab', 'enter', 'esc', 'pageup', 'pagedown',\
                 'shift', 'control', None, 'kright', 'kleft', 'kup', 'kdown'):
                 posCursor += 1
-                contentLineCurrent += newChar
+                contentLineCurrent = list(contentLineCurrent)
+                contentLineCurrent.insert(posCursor - 1, newChar)
+                contentLineCurrent = ''.join(contentLineCurrent)
                 lstChar = list(contentLineCurrent)
                 lstChar.insert(posCursor, '|')
+                contentLineCurrentDisplay = ''.join(lstChar)
                 if camBot - camTop == 17:
                     camBot = len(content)
                     camTop = camBot - 17
-                contentLineCurrentDisplay = ''.join(lstChar)
-            elif newChar == 'pageup':
+            elif newChar == 'pageup':            
                 if not len(listCommand) == 0:
-                    contentLineCurrent = listCommand[indexListCommand]
-                    contentLineCurrentDisplay = contentLineCurrent + '|'
-                    posCursor = len(contentLineCurrent)
                     if -len(listCommand) != indexListCommand:
                         indexListCommand -= 1
-                if camBot - camTop == 17:
-                    camBot = len(content)
-                    camTop = camBot - 17
-                print(indexListCommand)
-            elif newChar == 'pagedown':
-                if camBot - camTop == 17:
-                    camBot = len(content)
-                    camTop = camBot - 17
-                if indexListCommand < -1:
-                    indexListCommand += 1
-                if not len(listCommand) == 0:
-                    if indexListCommand < 0:
                         contentLineCurrent = listCommand[indexListCommand]
                         contentLineCurrentDisplay = contentLineCurrent + '|'
                         posCursor = len(contentLineCurrent)
-                print(indexListCommand)
+                if camBot - camTop == 17:
+                    camBot = len(content)
+                    camTop = camBot - 17
+            elif newChar == 'pagedown':
+                if not len(listCommand) == 0:
+                    if indexListCommand < -1:
+                        indexListCommand += 1
+                        contentLineCurrent = listCommand[indexListCommand]
+                        contentLineCurrentDisplay = contentLineCurrent + '|'
+                        posCursor = len(contentLineCurrent)
+                if camBot - camTop == 17:
+                    camBot = len(content)
+                    camTop = camBot - 17
             elif newChar == 'kup':
                 if camBot - camTop == 17:
                     camBot -= 1
@@ -204,7 +203,7 @@ while 1:
                     camBot = len(content)
                     camTop = camBot - 17
             elif newChar == 'enter':
-                indexListCommand = -1
+                indexListCommand = 0
                 if camBot - camTop == 17:
                     camTop += 1
                 camBot += 1
