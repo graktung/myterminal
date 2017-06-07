@@ -1,7 +1,9 @@
 import pygame
+from pygame.locals import*
 import sys
 import random
-import os
+
+import directory
 
 pygame.init()
 icon = pygame.image.load('icon.jpg')
@@ -9,6 +11,7 @@ pygame.display.set_icon(icon)
 pygame.display.set_caption('Gr^k-T\'s Python Terminal')
 
 SIZE = width, height = 800, 480
+fullLine = 18
 BLACK = 0, 0, 0
 WHITE = 255, 255, 255
 RED = 255, 0, 0
@@ -16,7 +19,7 @@ BLUE = 0, 0, 205
 GREEN = 0, 128, 0
 YELLOW = 255, 255, 0
 PINK = 255, 0, 255
-SCREEN = pygame.display.set_mode(SIZE)
+SCREEN = pygame.display.set_mode(SIZE, RESIZABLE)
 myFont = pygame.font.SysFont("consolas", 15)
 listColor = [WHITE, RED, BLUE, GREEN, YELLOW, PINK]
 changeColor = 0
@@ -43,7 +46,7 @@ def displayGrakT(colorCur):
 "                                                                                         |___/"]
     for line in bar:
         label = myFont.render(line, 1, colorCur)
-        SCREEN.blit(label, (20, 360 + 20 * (bar.index(line))))
+        SCREEN.blit(label, (20, (height - 120) + 20 * (bar.index(line))))
 
 def displayText(screen, text, at, x, y, color, bg=None):
     if not 'graktung@blackrose:~# ' in text:
@@ -92,26 +95,6 @@ def readChar():
     else:
         return event.unicode
 
-class directory():
-    def __init__(self):
-        self.pwd = os.getcwd()
-    def changePWD(self, newpath):
-        os.chdir(newpath)
-        self.pwd = os.getcwd()
-    def getPWD(self):
-        return self.pwd
-    def getList(self):
-        ls = list(os.walk(self.pwd))[0][1:]
-        lss = []
-        for fol in ls[0]:
-            lss.append("Folder: " + fol)
-        for file in ls[1]:
-            lss.append("File  : " + file)
-        return lss
-
-
-mydirectory = directory()
-
 def progressCommand(cmd):
     cmd = cmd.strip()
     if cmd == '':
@@ -119,18 +102,18 @@ def progressCommand(cmd):
     elif cmd == 'exit':
         sys.exit(0)
     elif cmd == 'pwd':
-        path = mydirectory.getPWD()
+        path = directory.getPWD()
         path.replace('\\', '/')
         return [path]
     elif cmd == 'ls':
-        return mydirectory.getList()
+        return directory.getList()
     elif cmd.startswith('cd'):
         direc = cmd.replace('cd ', '')
-        try:
-            mydirectory.changePWD(direc)
+        isChange = directory.changePWD(direc)
+        if isChange:
             return []
-        except:
-            path = mydirectory.getPWD() + f'\\{direc}'
+        else:
+            path = directory.getPWD() + f'\\{direc}'
             path.replace('\\', '/')
             return ["Error!", "Cannot find path %r" %(path)]
     else:
@@ -138,11 +121,16 @@ def progressCommand(cmd):
 
 while 1:
     for event in pygame.event.get():
+        if event.type == pygame.VIDEORESIZE:
+            SCREEN = pygame.display.set_mode(event.dict['size'],HWSURFACE|DOUBLEBUF|RESIZABLE)
+            width, height = pygame.display.get_surface().get_size()
+            fullLine = (height - 120) // 20
         if event.type == pygame.QUIT: sys.exit()
         if event.type == pygame.KEYDOWN:
             newChar = readChar()
             if newChar not in ('backspace', 'tab', 'enter', 'esc', 'pageup', 'pagedown',\
                 'shift', 'control', None, 'kright', 'kleft', 'kup', 'kdown'):
+                indexListCommand = 0
                 posCursor += 1
                 contentLineCurrent = list(contentLineCurrent)
                 contentLineCurrent.insert(posCursor - 1, newChar)
@@ -150,9 +138,9 @@ while 1:
                 lstChar = list(contentLineCurrent)
                 lstChar.insert(posCursor, '|')
                 contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - 17
+                    camTop = camBot - (fullLine - 1)
             elif newChar == 'pageup':            
                 if not len(listCommand) == 0:
                     if -len(listCommand) != indexListCommand:
@@ -160,9 +148,9 @@ while 1:
                         contentLineCurrent = listCommand[indexListCommand]
                         contentLineCurrentDisplay = contentLineCurrent + '|'
                         posCursor = len(contentLineCurrent)
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - 17
+                    camTop = camBot - (fullLine - 1)
             elif newChar == 'pagedown':
                 if not len(listCommand) == 0:
                     if indexListCommand < -1:
@@ -170,13 +158,14 @@ while 1:
                         contentLineCurrent = listCommand[indexListCommand]
                         contentLineCurrentDisplay = contentLineCurrent + '|'
                         posCursor = len(contentLineCurrent)
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - 17
+                    camTop = camBot - (fullLine - 1)
             elif newChar == 'kup':
-                if camBot - camTop == 17:
-                    camBot -= 1
-                    camTop -= 1
+                if camTop != 0:
+                    if camBot - camTop == (fullLine - 1):
+                        camBot -= 1
+                        camTop -= 1
             elif newChar == 'kdown':
                 if camBot < len(content):
                     camBot += 1
@@ -187,33 +176,37 @@ while 1:
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
                     contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - 17
+                    camTop = camBot - (fullLine - 1)
             elif newChar == 'kleft':
                 if posCursor != 0:
                     posCursor -= 1
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
                     contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - 17     
+                    camTop = camBot - (fullLine - 1)     
             elif newChar == 'backspace':
                 if len(contentLineCurrent) != 0 and posCursor != 0:
-                    contentLineCurrent = list(contentLineCurrent)
-                    wordPoped = contentLineCurrent.pop(posCursor - 1)
-                    contentLineCurrent = ''.join(contentLineCurrent)
-                    posCursor -= 1
+                    try:
+                        contentLineCurrent = list(contentLineCurrent)
+                        wordPoped = contentLineCurrent.pop(posCursor - 1)
+                        contentLineCurrent = ''.join(contentLineCurrent)
+                        posCursor -= 1
+                    except:
+                        contentLineCurrent = contentLineCurrent[1:]
+                        posCursor = len(contentLineCurrent)
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
                     contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - 17
+                    camTop = camBot - (fullLine - 1)
             elif newChar == 'enter':
                 indexListCommand = 0
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camTop += 1
                 camBot += 1
                 content.append([root, contentLineCurrent])
@@ -227,17 +220,18 @@ while 1:
                 else:
                     contentAppend = progressCommand(contentLineCurrent)
                     for eachLine in contentAppend:
-                        if camBot - camTop == 17:
+                        if camBot - camTop == (fullLine - 1):
                             camTop += 1
                         camBot += 1
                         content.append(eachLine)
-                listCommand.append(contentLineCurrent)
+                if len(contentLineCurrent.strip(' ')) != 0:
+                	listCommand.append(contentLineCurrent)
                 posCursor = 0
                 contentLineCurrent = ''
                 contentLineCurrentDisplay = '|'
-                if camBot - camTop == 17:
+                if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - 17
+                    camTop = camBot - (fullLine - 1)
 
     SCREEN.fill(BLACK)
     changeColor += 1
