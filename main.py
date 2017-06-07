@@ -68,6 +68,10 @@ def displayText(screen, text, at, x, y, color, bg=None):
         text = text.replace('1f401268', '')
         label = myFont.render(text, at, ERRORCOLOR, bg)
         screen.blit(label, (x, y))
+    elif text.startswith('7084338a'):
+        text = text.replace('7084338a', '')
+        label = myFont.render(text, at, GREEN, bg)
+        screen.blit(label, (x, y))
     elif not 'graktung@blackrose:~# ' in text:
         label = myFont.render(text, at, WHITE, bg)
         screen.blit(label, (x, y))    
@@ -124,13 +128,16 @@ def readChar():
 
 def helpCommand():
     lstHelp = [[]]
+    lstHelp.append(["7084338aTerminal Working"])
     lstHelp.append(['"exit" -> stop Terminal from working.'])
     lstHelp.append(['"clear" -> clear all command lines which is displayed in Terminal.'])
+    lstHelp.append([])
+    lstHelp.append(["7084338aDirectory Working"])
     lstHelp.append(['"ls" -> List all the folders and the files at current working directory.'])
     lstHelp.append(['"pwd" -> Print the current working directory.'])
     lstHelp.append(['"cd new_working_directory" -> Change current working directory to new_working_directory.'])
-    lstHelp.append(['"move file_name/folder_name new_place -> move the file or the folder to new_place.'])
-    lstHelp.append(['"rename file_name/folder_name new_name -> rename the file or the folder to new_name.'])
+    lstHelp.append(['"move file_name/folder_name new_place" -> move the file or the folder to new_place.'])
+    lstHelp.append(['"rename file_name/folder_name new_name" -> rename the file or the folder to new_name.'])
     lstHelp.append(['"rmf file_name" -> remove the file file_name.'])
     lstHelp.append(['"rmdir folder_name" -> remove the folder folder_name.'])
     lstHelp.append([])
