@@ -113,6 +113,12 @@ def readChar():
         return None
     elif event.key == 282:
         return 'paste'
+    elif event.key == 283:
+        return 'begincur'
+    elif event.key == 284:
+        return 'endcur'
+    elif event.key == 285:
+        return 'delall'
     else:
         return event.unicode
 
@@ -184,7 +190,7 @@ while 1:
         elif event.type == pygame.QUIT: sys.exit()
         elif event.type == pygame.KEYDOWN:
             newChar = readChar()
-            if newChar not in ('backspace', 'tab', 'enter', 'esc', 'pageup', 'pagedown',\
+            if newChar not in ('delall', 'begincur', 'endcur', 'backspace', 'tab', 'enter', 'esc', 'pageup', 'pagedown',\
                 'shift', 'control', None, 'kright', 'kleft', 'kup', 'kdown', 'paste'):
                 indexListCommand = 0
                 showCur = 0
@@ -198,6 +204,16 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
+            elif newChar == 'delall':
+                contentLineCurrent = ''
+                posCursor = 0
+                contentLineCurrentDisplay = '|'
+            elif newChar == 'begincur':
+                posCursor = 0
+                contentLineCurrentDisplay = '|' + contentLineCurrent
+            elif newChar == 'endcur':
+                posCursor = len(contentLineCurrent)
+                contentLineCurrentDisplay = contentLineCurrent + '|'
             elif newChar == 'paste':
                 if canCopy:
                     paste = pyperclip.paste()
@@ -209,6 +225,8 @@ while 1:
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
                     contentLineCurrentDisplay = ''.join(lstChar)
+                else:
+                    print('Require Pyperclip module for Paste.')
             elif newChar == 'pageup':            
                 if not len(listCommand) == 0:
                     if -len(listCommand) != indexListCommand:
