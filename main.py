@@ -120,8 +120,7 @@ def progressCommand(cmd):
         sys.exit(0)
     elif cmd == 'pwd':
         path = mydirectory.getPWD()
-        path = path.split('\\')
-        path = '/'.join(path)
+        path.replace('\\', '/')
         return [path]
     elif cmd == 'ls':
         return mydirectory.getList()
@@ -132,8 +131,7 @@ def progressCommand(cmd):
             return []
         except:
             path = mydirectory.getPWD() + f'\\{direc}'
-            path = path.split('\\')
-            path = '/'.join(path)
+            path.replace('\\', '/')
             return ["Error!", "Cannot find path %r" %(path)]
     else:
         return ['%r not found.' %(cmd)]
@@ -202,8 +200,10 @@ while 1:
                     camBot = len(content)
                     camTop = camBot - 17     
             elif newChar == 'backspace':
-                if len(contentLineCurrent) != 0:
-                    contentLineCurrent = contentLineCurrent[:-1]
+                if len(contentLineCurrent) != 0 and posCursor != 0:
+                    contentLineCurrent = list(contentLineCurrent)
+                    wordPoped = contentLineCurrent.pop(posCursor - 1)
+                    contentLineCurrent = ''.join(contentLineCurrent)
                     posCursor -= 1
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
