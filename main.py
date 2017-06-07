@@ -3,6 +3,11 @@ import pygame
 from pygame.locals import*
 import sys
 import random
+try:
+    import pyperclip
+    canCopy = 1
+except:
+    canCopy = 0
 
 # my modules
 import directory
@@ -150,10 +155,10 @@ while 1:
                 'shift', 'control', None, 'kright', 'kleft', 'kup', 'kdown', 'paste'):
                 indexListCommand = 0
                 showCur = 0
-                posCursor += 1
                 contentLineCurrent = list(contentLineCurrent)
-                contentLineCurrent.insert(posCursor - 1, newChar)
+                contentLineCurrent.insert(posCursor, newChar)
                 contentLineCurrent = ''.join(contentLineCurrent)
+                posCursor += 1
                 lstChar = list(contentLineCurrent)
                 lstChar.insert(posCursor, '|')
                 contentLineCurrentDisplay = ''.join(lstChar)
@@ -161,7 +166,16 @@ while 1:
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
             elif newChar == 'paste':
-                pass
+                if canCopy:
+                    paste = pyperclip.paste()
+                    showCur = 0
+                    contentLineCurrent = list(contentLineCurrent)
+                    contentLineCurrent.insert(posCursor, paste)
+                    contentLineCurrent = ''.join(contentLineCurrent)
+                    posCursor += len(paste)
+                    lstChar = list(contentLineCurrent)
+                    lstChar.insert(posCursor, '|')
+                    contentLineCurrentDisplay = ''.join(lstChar)
             elif newChar == 'pageup':            
                 if not len(listCommand) == 0:
                     if -len(listCommand) != indexListCommand:

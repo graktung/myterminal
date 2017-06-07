@@ -1,4 +1,6 @@
-# myterminal
+# Gr^k-T's Python Terminal
 <div>
-	<p>I made it for fun. xD ^^</p>
+	<h1>Require:</h1>
+	<p> + Pygame</p>
+	<p> + Pyperclip</p>
 </div>
