@@ -1,20 +1,4 @@
 # Gr^k-T's Python Terminal
-<head>
-	<style type="text/css">
-		#left {
-			text-align: left;
-		}
-
-		#right {
-			text-align: right;
-		}
-		
-		th {
-			padding: 10px 5px;
-			border: solid 3px grey;
-		}
-	</style>
-</head>
 <div>
 	<h1>Require:</h1>
 	<p> + Pygame</p>
