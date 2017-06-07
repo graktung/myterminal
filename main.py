@@ -111,7 +111,7 @@ def readChar():
         return 'kdown'
     elif event.key == pygame.K_CAPSLOCK:
         return None
-    elif event.key == 118:
+    elif event.key == 282:
         return 'paste'
     else:
         return event.unicode
@@ -131,13 +131,41 @@ def progressCommand(cmd):
     elif cmd.startswith('cd '):
         direc = cmd[3:]
         direc = direc.strip(' ')
-        isChange = directory.changePWD(direc)
-        if isChange:
+        isOK = directory.changePWD(direc)
+        if isOK:
             return []
         else:
             path = directory.getPWD() + f'\\{direc}'
             path = path.replace('\\', '/')
             return ["1f401268Error!", "Cannot find path %r" %(path)]
+    elif cmd.startswith('move '):
+        cmd = cmd[5:]
+        isOK = directory.move(cmd)
+        if isOK:
+            return []
+        else:
+            return ["1f401268Error!", "Cannot find the file or path specified"]
+    elif cmd.startswith('rename '):
+        cmd = cmd[7:]
+        isOK = directory.rename(cmd)
+        if isOK:
+            return []
+        else:
+            return ["1f401268Error!", "Cannot find the file or folder specified"]
+    elif cmd.startswith('rmf '):
+        cmd = cmd[4:]
+        isOK = directory.removeFile(cmd)
+        if isOK:
+            return []
+        else:
+            return ["1f401268Error!", "Cannot find the file specified"]
+    elif cmd.startswith('rmdir '):
+        cmd = cmd[6:]
+        isOK = directory.removeDir(cmd)
+        if isOK:
+            return []
+        else:
+            return ["1f401268Error!", "Cannot find the directory specified"]
     else:
         return ['%r not found.' %(cmd)]
 
