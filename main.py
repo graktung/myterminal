@@ -1,8 +1,10 @@
+# standard modules
 import pygame
 from pygame.locals import*
 import sys
 import random
 
+# my modules
 import directory
 
 pygame.init()
@@ -24,7 +26,6 @@ myFont = pygame.font.SysFont("consolas", 15)
 listColor = [WHITE, RED, BLUE, GREEN, YELLOW, PINK]
 changeColor = 0
 colorCur = listColor.pop(listColor.index(random.choice(listColor)))
-
 
 content = []
 listCommand = []
@@ -110,6 +111,7 @@ def progressCommand(cmd):
         return directory.getList()
     elif cmd.startswith('cd'):
         direc = cmd.replace('cd ', '')
+        direc = direc.strip(' ')
         isChange = directory.changePWD(direc)
         if isChange:
             return []
@@ -239,7 +241,6 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
-
     SCREEN.fill(BLACK)
     changeColor += 1
     if changeColor > 500:
