@@ -1,8 +1,15 @@
-# Gr^k-T's Python Terminal
+<h1 style="font-weight: bold;font-size: 50px;">Gr^k-T's Python Terminal</h1>
+
 <div>
 	<h1>Require:</h1>
-	<p> + Pygame</p>
-	<p> + Pyperclip</p>
+	<h4>Forced</h4>
+	<ul>
+		<li>Pygame</li>
+	</ul>
+	<h4>Optional</h4>
+	<ul>
+		<li>Pyperclip (for Paste function)</li>
+	</ul>
 </div>
 <div>
 	<h2>Keyboard Shortcut</h2>
