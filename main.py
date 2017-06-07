@@ -22,6 +22,7 @@ fullLine = 18
 BLACK = 0, 0, 0
 WHITE = 255, 255, 255
 RED = 255, 0, 0
+ERRORCOLOR = 204, 0, 0
 BLUE = 0, 0, 205
 GREEN = 0, 128, 0
 YELLOW = 255, 255, 0
@@ -63,9 +64,13 @@ def displayGrakT(colorCur):
             SCREEN.blit(label, (20, 20 + 20 * (bar.index(line))))        
 
 def displayText(screen, text, at, x, y, color, bg=None):
-    if not 'graktung@blackrose:~# ' in text:
-        label = myFont.render(text, at, WHITE, bg)
+    if text.startswith('1f401268'):
+        text = text.replace('1f401268', '')
+        label = myFont.render(text, at, ERRORCOLOR, bg)
         screen.blit(label, (x, y))
+    elif not 'graktung@blackrose:~# ' in text:
+        label = myFont.render(text, at, WHITE, bg)
+        screen.blit(label, (x, y))    
     else:
         labelUser = myFont.render('graktung@blackrose', at, (RED), bg)
         labelColon = myFont.render(':', at, (WHITE), bg)
@@ -119,20 +124,20 @@ def progressCommand(cmd):
         sys.exit(0)
     elif cmd == 'pwd':
         path = directory.getPWD()
-        path.replace('\\', '/')
+        path = path.replace('\\', '/')
         return [path]
     elif cmd == 'ls':
         return directory.getList()
-    elif cmd.startswith('cd'):
-        direc = cmd.replace('cd ', '')
+    elif cmd.startswith('cd '):
+        direc = cmd[3:]
         direc = direc.strip(' ')
         isChange = directory.changePWD(direc)
         if isChange:
             return []
         else:
             path = directory.getPWD() + f'\\{direc}'
-            path.replace('\\', '/')
-            return ["Error!", "Cannot find path %r" %(path)]
+            path = path.replace('\\', '/')
+            return ["1f401268Error!", "Cannot find path %r" %(path)]
     else:
         return ['%r not found.' %(cmd)]
 
