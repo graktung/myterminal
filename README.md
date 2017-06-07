@@ -1,7 +1,7 @@
-<h1 style="color: red">Gr^k-T's Python Terminal</h1>
+<h1>Gr^k-T's Python Terminal</h1>
 
 <div>
-	<h1>Require:</h1>
+	<h2>Require:</h2>
 	<h4>Forced</h4>
 	<ul>
 		<li>Pygame</li>
@@ -12,7 +12,7 @@
 	</ul>
 </div>
 <div>
-	<h2>Keyboard Shortcut</h2>
+	<h3>Keyboard Shortcut</h3>
 	<table>
 		<tr>
 			<th>"Page up"</th>
@@ -41,7 +41,7 @@
 	</table>
 </div>
 <div>
-	<h2>"help" command</h2>
+	<h3>"help" command</h3>
 	<ul>
 		<li>"exit" -> stop Terminal from working.</li>
 		<li>"clear" -> clear all command lines which is displayed in Terminal.</li>
