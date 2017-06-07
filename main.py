@@ -44,9 +44,10 @@ def displayGrakT(colorCur):
 "| |_| | |    |   <_____| |          | | | | | | (_| | | | | | | |   | || |  | |_| | | | | (_| |",
 " \____|_|    |_|\_\    |_|  Nguyễn  |_| |_| |_|\__,_|_| |_|_| |_|   |_||_|   \__,_|_| |_|\__, |",
 "                                                                                         |___/"]
-    for line in bar:
-        label = myFont.render(line, 1, colorCur)
-        SCREEN.blit(label, (20, (height - 120) + 20 * (bar.index(line))))
+    if not height < 140:
+        for line in bar:
+            label = myFont.render(line, 1, colorCur)
+            SCREEN.blit(label, (20, (height - 120) + 20 * (bar.index(line))))
 
 def displayText(screen, text, at, x, y, color, bg=None):
     if not 'graktung@blackrose:~# ' in text:
@@ -125,6 +126,12 @@ while 1:
             SCREEN = pygame.display.set_mode(event.dict['size'],HWSURFACE|DOUBLEBUF|RESIZABLE)
             width, height = pygame.display.get_surface().get_size()
             fullLine = (height - 120) // 20
+            if len(content) >= fullLine:
+            	camBot = len(content)
+            	camTop = camBot - (fullLine - 1)
+            else:
+            	camBot = len(content)
+            	camTop = 0
         if event.type == pygame.QUIT: sys.exit()
         if event.type == pygame.KEYDOWN:
             newChar = readChar()
