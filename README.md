@@ -1,4 +1,4 @@
-<h1 style="font-weight: bold;font-size: 50px;">Gr^k-T's Python Terminal</h1>
+<h1 style="color: red">Gr^k-T's Python Terminal</h1>
 
 <div>
 	<h1>Require:</h1>
