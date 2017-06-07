@@ -25,6 +25,7 @@ SCREEN = pygame.display.set_mode(SIZE, RESIZABLE)
 myFont = pygame.font.SysFont("consolas", 15)
 listColor = [WHITE, RED, BLUE, GREEN, YELLOW, PINK]
 changeColor = 0
+showCur = 0
 colorCur = listColor.pop(listColor.index(random.choice(listColor)))
 
 content = []
@@ -48,7 +49,13 @@ def displayGrakT(colorCur):
     if not height < 140:
         for line in bar:
             label = myFont.render(line, 1, colorCur)
-            SCREEN.blit(label, (20, (height - 120) + 20 * (bar.index(line))))
+            SCREEN.blit(label, (20, (fullLine * 20) + 20 * (bar.index(line))))
+    elif height > 20:
+        for line in bar:
+            if bar.index(line) * 20 + 20 > height:
+                break
+            label = myFont.render(line, 1, colorCur)
+            SCREEN.blit(label, (20, 20 + 20 * (bar.index(line))))        
 
 def displayText(screen, text, at, x, y, color, bg=None):
     if not 'graktung@blackrose:~# ' in text:
@@ -94,6 +101,8 @@ def readChar():
         return 'kdown'
     elif event.key == pygame.K_CAPSLOCK:
         return None
+    elif event.key == 118:
+        return 'paste'
     else:
         return event.unicode
 
@@ -134,12 +143,13 @@ while 1:
             else:
             	camBot = len(content)
             	camTop = 0
-        if event.type == pygame.QUIT: sys.exit()
-        if event.type == pygame.KEYDOWN:
+        elif event.type == pygame.QUIT: sys.exit()
+        elif event.type == pygame.KEYDOWN:
             newChar = readChar()
             if newChar not in ('backspace', 'tab', 'enter', 'esc', 'pageup', 'pagedown',\
-                'shift', 'control', None, 'kright', 'kleft', 'kup', 'kdown'):
+                'shift', 'control', None, 'kright', 'kleft', 'kup', 'kdown', 'paste'):
                 indexListCommand = 0
+                showCur = 0
                 posCursor += 1
                 contentLineCurrent = list(contentLineCurrent)
                 contentLineCurrent.insert(posCursor - 1, newChar)
@@ -150,6 +160,8 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
+            elif newChar == 'paste':
+                pass
             elif newChar == 'pageup':            
                 if not len(listCommand) == 0:
                     if -len(listCommand) != indexListCommand:
@@ -160,6 +172,7 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
+                showCur = 0
             elif newChar == 'pagedown':
                 if not len(listCommand) == 0:
                     if indexListCommand < -1:
@@ -170,15 +183,18 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
+                showCur = 0
             elif newChar == 'kup':
                 if camTop != 0:
                     if camBot - camTop == (fullLine - 1):
                         camBot -= 1
                         camTop -= 1
+                showCur = 0
             elif newChar == 'kdown':
                 if camBot < len(content):
                     camBot += 1
                     camTop += 1
+                showCur = 0
             elif newChar == 'kright':
                 if not len(contentLineCurrent) == posCursor:
                     posCursor += 1
@@ -188,6 +204,7 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
+                showCur = 0
             elif newChar == 'kleft':
                 if posCursor != 0:
                     posCursor -= 1
@@ -196,7 +213,8 @@ while 1:
                     contentLineCurrentDisplay = ''.join(lstChar)
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
-                    camTop = camBot - (fullLine - 1)     
+                    camTop = camBot - (fullLine - 1)
+                showCur = 0    
             elif newChar == 'backspace':
                 if len(contentLineCurrent) != 0 and posCursor != 0:
                     try:
@@ -213,6 +231,7 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
+                showCur = 0
             elif newChar == 'enter':
                 indexListCommand = 0
                 if camBot - camTop == (fullLine - 1):
@@ -241,8 +260,10 @@ while 1:
                 if camBot - camTop == (fullLine - 1):
                     camBot = len(content)
                     camTop = camBot - (fullLine - 1)
+                showCur = 0
     SCREEN.fill(BLACK)
     changeColor += 1
+    showCur += 1
     if changeColor > 500:
         changeColor = 0
         appColorAgain = colorCur
@@ -255,6 +276,13 @@ while 1:
         displayText(SCREEN,''.join(content[i]), 1, 0, line * 20, WHITE)
         line += 1
     if camBot == len(content):
-        displayText(SCREEN, root + contentLineCurrentDisplay, 1, 0, line * 20, WHITE)
+        if showCur < 500:
+            displayText(SCREEN, root + contentLineCurrentDisplay, 1, 0, line * 20, WHITE)
+        else:
+            displayText(SCREEN, root + contentLineCurrent, 1, 0, line * 20, WHITE)
+        if showCur > 1000:
+            showCur = 0
+    else:
+        displayText(SCREEN,''.join(content[camBot]), 1, 0, line * 20, WHITE)
     line = 0
     pygame.display.flip()
