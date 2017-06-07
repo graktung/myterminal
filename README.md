@@ -42,9 +42,13 @@
 </div>
 <div>
 	<h3>"help" command</h3>
+	<h4>Terminal Working</h4>
 	<ul>
 		<li>"exit" -> stop Terminal from working.</li>
-		<li>"clear" -> clear all command lines which is displayed in Terminal.</li>
+		<li>"clear" -> clear all command lines which is displayed in Terminal.</li>		
+	</ul>
+	<h4>Directory Working</h4>
+	<ul>
 		<li>"ls" -> List all the folders and the files at current working directory.</li>
 		<li>"pwd" -> Print the current working directory.</li>
 		<li>"cd new_working_directory" -> Change current working directory to new_working_directory.</li>
