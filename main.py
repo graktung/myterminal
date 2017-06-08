@@ -68,6 +68,10 @@ def displayText(text, at, x, y, color, bg=None):
         text = text.replace('7084338a', '')
         label = myFont.render(text, at, GREEN, bg)
         SCREEN.blit(label, (x, y))
+    elif text.startswith('36ac99f1'):
+        text = text.replace('36ac99f1', '')
+        label = myFont.render(text, at, BLUE, bg)
+        SCREEN.blit(label, (x, y))
     elif not 'graktung@blackrose:~# ' in text:
         label = myFont.render(text, at, WHITE, bg)
         SCREEN.blit(label, (x, y))    
@@ -146,6 +150,8 @@ def helpCommand():
     lstHelp.append(['"checkf file_name" -> check whether file file_name exist or not'])
     lstHelp.append(['"unzipall file_zip [path]" -> extract all file in file_zip into the path'])
     lstHelp.append(['"unzip file_name file_zip [path] - > extract file_name in the file zip into the path'])
+    lstHelp.append([])
+    lstHelp.append(['36ac99f1More information: https://github.com/graktung/myterminal'])
     lstHelp.append([])
     return lstHelp
 
@@ -246,7 +252,7 @@ def progressCommand(cmd):
         cmd = cmd[6:]
         return directory.unzip(cmd)
     else:
-        return ['%r not found.' %(cmd)]
+        return ['%r not found.' %(cmd), '7084338aIf you have no idea what to do use "help" command.']
 
 while 1:
     fullLine = (height - 120) // 20
