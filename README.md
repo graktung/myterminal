@@ -57,7 +57,13 @@
 	<ul>
 		<li>"move file_name/folder_name new_place" -> move the file or the folder to new_place.</li>
 		<li>"rename file_name/folder_name new_name" -> rename the file or the folder to new_name.</li>
-		<li>"rmf file_name" -> remove the file file_name.</li>
-		<li>"rmdir folder_name" -> remove the folder folder_name.</li>
+		<li>"rmf file_name" -> remove file file_name.</li>
+		<li>"rmdir folder_name" -> remove folder folder_name.</li>
+		<li>"mkf file_name" -> create file file_name.</li>
+		<li>"mkdir folder_name" -> create folder folder_name.</li>
+		<li>"get content file_name" -> get content of the file_name.</li>
+		<li>"checkpath path" -> check whether path valid or not.</li>
+		<li>"checkdir folder_name" -> check whether folder folder_name exist or not.</li>
+		<li>"checkf file_name" -> check whether file file_name exist or not.</li>
 	</ul>
 </div>

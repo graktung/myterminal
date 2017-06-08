@@ -138,6 +138,12 @@ def helpCommand():
     lstHelp.append(['"rename file_name/folder_name new_name" -> rename the file or the folder to new_name'])
     lstHelp.append(['"rmf file_name" -> remove the file file_name'])
     lstHelp.append(['"rmdir folder_name" -> remove the folder folder_name'])
+    lstHelp.append(['"mkf file_name" -> create file file_name'])
+    lstHelp.append(['"mkdir folder_name" -> create folder folder_name'])
+    lstHelp.append(['"get content file_name" -> get content of the file_name'])
+    lstHelp.append(['"checkpath path" -> check whether path valid or not'])
+    lstHelp.append(['"checkdir folder_name" -> check whether folder folder_name exist or not'])
+    lstHelp.append(['"checkf file_name" -> check whether file file_name exist or not'])
     lstHelp.append([])
     return lstHelp
 
