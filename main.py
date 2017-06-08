@@ -125,19 +125,19 @@ def readChar():
 def helpCommand():
     lstHelp = [[]]
     lstHelp.append(["7084338aTerminal Working"])
-    lstHelp.append(['"exit" -> stop Terminal from working.'])
-    lstHelp.append(['"clear" -> clear all command lines which is displayed in Terminal.'])
+    lstHelp.append(['"exit" -> stop Terminal from working'])
+    lstHelp.append(['"clear" -> clear all command lines which is displayed in Terminal'])
     lstHelp.append([])
     lstHelp.append(["7084338aDirectory Working"])
-    lstHelp.append(['"ls" -> List all the folders and the files at current working directory.'])
-    lstHelp.append(['"pwd" -> Print the current working directory.'])
-    lstHelp.append(['"cd new_working_directory" -> Change current working directory to new_working_directory.'])
+    lstHelp.append(['"ls" -> List all the folders and the files at current working directory'])
+    lstHelp.append(['"pwd" -> Print the current working directory'])
+    lstHelp.append(['"cd new_working_directory" -> Change current working directory to new_working_directory'])
     lstHelp.append([])
     lstHelp.append(["7084338aFiles And Folders Working"])
-    lstHelp.append(['"move file_name/folder_name new_place" -> move the file or the folder to new_place.'])
-    lstHelp.append(['"rename file_name/folder_name new_name" -> rename the file or the folder to new_name.'])
-    lstHelp.append(['"rmf file_name" -> remove the file file_name.'])
-    lstHelp.append(['"rmdir folder_name" -> remove the folder folder_name.'])
+    lstHelp.append(['"move file_name/folder_name new_place" -> move the file or the folder to new_place'])
+    lstHelp.append(['"rename file_name/folder_name new_name" -> rename the file or the folder to new_name'])
+    lstHelp.append(['"rmf file_name" -> remove the file file_name'])
+    lstHelp.append(['"rmdir folder_name" -> remove the folder folder_name'])
     lstHelp.append([])
     return lstHelp
 
@@ -193,6 +193,50 @@ def progressCommand(cmd):
             return []
         else:
             return ["1f401268Error!", "Cannot find the directory specified"]
+    elif cmd.startswith('mkdir '):
+        cmd = cmd[6:]
+        isOK = directory.makeDir(cmd)
+        if isOK:
+            return []
+        else:
+            return ["1f401268Error!"]
+    elif cmd.startswith('mkf '):
+        cmd = cmd[4:]
+        isOK = directory.makeFile(cmd)
+        if isOK:
+            return []
+        else:
+            return ["1f401268Error!"]
+    elif cmd.startswith('get content '):
+        cmd = cmd[12:]
+        isOK = directory.getContent(cmd)
+        if type(isOK) is list:
+            return isOK
+        elif isOK == -1:
+            return ["1f401268File Error!", "Something went wrong when trying to get content %r" %(cmd)]
+        else:
+            return ["1f401268Error!", "Cannot find the file specified"]
+    elif cmd.startswith('checkpath '):
+        cmd = cmd[10:]
+        isOK = directory.checkPath(cmd)
+        if isOK:
+            return ["7084338aValid path"]
+        else:
+            return ["1f401268Invalid path"]
+    elif cmd.startswith('checkdir '):
+        cmd = cmd[9:]
+        isOK = directory.checkDir(cmd)
+        if isOK:
+            return ["7084338aDirectory is exist"]
+        else:
+            return ["1f401268Directory is not exist"]
+    elif cmd.startswith('checkf '):
+        cmd = cmd[7:]
+        isOK = directory.checkFile(cmd)
+        if isOK:
+            return ["7084338aFile is exist"]
+        else:
+            return ["1f401268File is not exist"]
     else:
         return ['%r not found.' %(cmd)]
 
@@ -214,8 +258,8 @@ while 1:
                 SCREEN = pygame.display.set_mode((width,height), HWSURFACE|DOUBLEBUF|RESIZABLE)
             fullLine = (height - 120) // 20
             if len(contentDisplay) >= fullLine:
-            	camBot = len(contentDisplay)
-            	camTop = camBot - (fullLine - 1)
+                camBot = len(contentDisplay)
+                camTop = camBot - (fullLine - 1)
             else:
                 camBot = len(contentDisplay)
                 camTop = 0
@@ -354,7 +398,7 @@ while 1:
                         camBot += 1
                         content.append(eachLine)
                 if len(contentLineCurrent.strip(' ')) != 0:
-                	listCommand.append(contentLineCurrent)
+                    listCommand.append(contentLineCurrent)
                 posCursor = 0
                 contentLineCurrent = ''
                 contentLineCurrentDisplay = '|'

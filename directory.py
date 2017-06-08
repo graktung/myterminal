@@ -53,3 +53,59 @@ def removeDir(direc):
         return 1
     except:
         return 0
+
+def makeDir(name):
+    name = name.strip('\\/:*?"<>| ')
+    try:
+        os.makedirs(name)
+        return 1
+    except:
+        return 0
+
+def makeFile(name):
+    name = name.strip('\\/:*?"<>| ')
+    try:
+        with open(name, 'w') as f:
+            f.close()
+        return 1
+    except:
+        return 0
+
+def getContent(name):
+    try:
+        with open(name) as f:
+            content = f.readlines()
+            for i in range(len(content)):
+                content[i] = content[i].rstrip()
+        return content
+    except UnicodeDecodeError:
+        return -1
+    except:
+        return 0
+
+def checkPath(path):
+    try:
+        if os.path.exists(path):
+            return 1
+        else:
+            return 0
+    except:
+        return 0
+
+def checkDir(path):
+    try:
+        if os.path.isdir(path):
+            return 1
+        else:
+            return 0
+    except:
+        return 0
+
+def checkFile(path):
+    try:
+        if os.path.isfile(path):
+            return 1
+        else:
+            return 0
+    except:
+        return 0
