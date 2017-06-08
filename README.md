@@ -42,6 +42,10 @@
 </div>
 <div>
 	<h3>"help" command</h3>
+	<h5>Compact</h5>
+	<ul>
+		<li>[...] -> optional</li>
+	</ul>
 	<h4>Terminal Working</h4>
 	<ul>
 		<li>"exit" -> stop Terminal from working.</li>
@@ -65,5 +69,7 @@
 		<li>"checkpath path" -> check whether path valid or not.</li>
 		<li>"checkdir folder_name" -> check whether folder folder_name exist or not.</li>
 		<li>"checkf file_name" -> check whether file file_name exist or not.</li>
+		<li>"unzipall file_zip [path]" -> extract all file in file_zip into the path.</li>
+		<li>"unzip file_name file_zip [path] - > extract file_name in the file zip into the path</li>
 	</ul>
 </div>

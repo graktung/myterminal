@@ -144,6 +144,8 @@ def helpCommand():
     lstHelp.append(['"checkpath path" -> check whether path valid or not'])
     lstHelp.append(['"checkdir folder_name" -> check whether folder folder_name exist or not'])
     lstHelp.append(['"checkf file_name" -> check whether file file_name exist or not'])
+    lstHelp.append(['"unzipall file_zip [path]" -> extract all file in file_zip into the path'])
+    lstHelp.append(['"unzip file_name file_zip [path] - > extract file_name in the file zip into the path'])
     lstHelp.append([])
     return lstHelp
 
@@ -215,13 +217,7 @@ def progressCommand(cmd):
             return ["1f401268Error!"]
     elif cmd.startswith('get content '):
         cmd = cmd[12:]
-        isOK = directory.getContent(cmd)
-        if type(isOK) is list:
-            return isOK
-        elif isOK == -1:
-            return ["1f401268File Error!", "Something went wrong when trying to get content %r" %(cmd)]
-        else:
-            return ["1f401268Error!", "Cannot find the file specified"]
+        return directory.getContent(cmd)
     elif cmd.startswith('checkpath '):
         cmd = cmd[10:]
         isOK = directory.checkPath(cmd)
@@ -243,6 +239,12 @@ def progressCommand(cmd):
             return ["7084338aFile is exist"]
         else:
             return ["1f401268File is not exist"]
+    elif cmd.startswith('unzipall '):
+        cmd = cmd[9:]
+        return directory.unzipAll(cmd)
+    elif cmd.startswith('unzip '):
+        cmd = cmd[6:]
+        return directory.unzip(cmd)
     else:
         return ['%r not found.' %(cmd)]
 
