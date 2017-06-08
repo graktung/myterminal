@@ -15,6 +15,22 @@
 	<h3>Keyboard Shortcut</h3>
 	<table>
 		<tr>
+			<th>"Key up"</th>
+			<th>Scroll up the Terminal</th>
+		</tr>
+		<tr>
+			<th>"Key down"</th>
+			<th>Scroll down the Terminal</th>
+		</tr>
+		<tr>
+			<th>"Key left"</th>
+			<th>Move the cursor to the left</th>
+		</tr>
+		<tr>
+			<th>"Key right"</th>
+			<th>Move the cursor to the right</th>
+		</tr>
+		<tr>
 			<th>"Page up"</th>
 			<th>Last command</th>
 		</tr>
