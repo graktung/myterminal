@@ -225,15 +225,24 @@ while 1:
             newChar = readChar()
             if newChar not in ('delall', 'begincur', 'endcur', 'backspace', 'tab', 'enter', 'esc', 'pageup', 'pagedown',\
                 'shift', 'control', None, 'kright', 'kleft', 'kup', 'kdown', 'paste'):
+                try:
+                    contentLineCurrent = list(contentLineCurrent)
+                    contentLineCurrent.insert(posCursor, newChar)
+                    contentLineCurrent = ''.join(contentLineCurrent)
+                    posCursor += 1
+                    lstChar = list(contentLineCurrent)
+                    lstChar.insert(posCursor, '|')
+                    contentLineCurrentDisplay = ''.join(lstChar)
+                except:
+                    posCursor = 0
+                    if camBot - camTop == (fullLine - 1):
+                        camTop += 1
+                    camBot += 1
+                    content.append([root])
+                    contentLineCurrent = ''
+                    contentLineCurrentDisplay = '|'    
                 indexListCommand = 0
-                showCur = 0
-                contentLineCurrent = list(contentLineCurrent)
-                contentLineCurrent.insert(posCursor, newChar)
-                contentLineCurrent = ''.join(contentLineCurrent)
-                posCursor += 1
-                lstChar = list(contentLineCurrent)
-                lstChar.insert(posCursor, '|')
-                contentLineCurrentDisplay = ''.join(lstChar)
+                showCur = 0   
                 currentLine = True
             elif newChar == 'delall':
                 contentLineCurrent = ''
