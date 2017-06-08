@@ -1,5 +1,6 @@
 # standard modules
 import pygame
+import time
 from pygame.locals import*
 import sys
 import random
@@ -35,11 +36,13 @@ showCur = 0
 colorCur = listColor.pop(listColor.index(random.choice(listColor)))
 
 content = []
+contentDisplay = []
 listCommand = []
 indexListCommand = 0
 contentLineCurrent = ''
 contentLineCurrentDisplay = '|'
 posCursor = 0
+currentLine = True
 root = 'graktung@blackrose:~# '
 camTop = 0
 camBot = 0
@@ -63,30 +66,30 @@ def displayGrakT(colorCur):
             label = myFont.render(line, 1, colorCur)
             SCREEN.blit(label, (20, 20 + 20 * (bar.index(line))))        
 
-def displayText(screen, text, at, x, y, color, bg=None):
+def displayText(text, at, x, y, color, bg=None):
     if text.startswith('1f401268'):
         text = text.replace('1f401268', '')
         label = myFont.render(text, at, ERRORCOLOR, bg)
-        screen.blit(label, (x, y))
+        SCREEN.blit(label, (x, y))
     elif text.startswith('7084338a'):
         text = text.replace('7084338a', '')
         label = myFont.render(text, at, GREEN, bg)
-        screen.blit(label, (x, y))
+        SCREEN.blit(label, (x, y))
     elif not 'graktung@blackrose:~# ' in text:
         label = myFont.render(text, at, WHITE, bg)
-        screen.blit(label, (x, y))    
+        SCREEN.blit(label, (x, y))    
     else:
         labelUser = myFont.render('graktung@blackrose', at, (RED), bg)
         labelColon = myFont.render(':', at, (WHITE), bg)
         labelNS = myFont.render('#', at, (WHITE), bg)
         labelTilde = myFont.render('~', at, (BLUE), bg)
-        screen.blit(labelUser, (0, y))
-        screen.blit(labelColon, (145, y))
-        screen.blit(labelTilde, (153, y))
-        screen.blit(labelNS, (165, y))
+        SCREEN.blit(labelUser, (0, y))
+        SCREEN.blit(labelColon, (145, y))
+        SCREEN.blit(labelTilde, (153, y))
+        SCREEN.blit(labelNS, (165, y))
         text = text.replace('graktung@blackrose:~#', '')
         labelText = myFont.render(text, at, color, bg)
-        screen.blit(labelText, (170, y))
+        SCREEN.blit(labelText, (170, y))
 
 def readChar():
     if event.key == pygame.K_BACKSPACE:
@@ -199,17 +202,25 @@ def progressCommand(cmd):
         return ['%r not found.' %(cmd)]
 
 while 1:
+    if currentLine:
+        if camBot - camTop == (fullLine - 1):
+            camBot = len(contentDisplay)
+            camTop = camBot - (fullLine - 1)
     for event in pygame.event.get():
         if event.type == pygame.VIDEORESIZE:
             SCREEN = pygame.display.set_mode(event.dict['size'],HWSURFACE|DOUBLEBUF|RESIZABLE)
             width, height = pygame.display.get_surface().get_size()
+            if width < 400:
+                width = 400
+                SCREEN = pygame.display.set_mode((width,height), HWSURFACE|DOUBLEBUF|RESIZABLE)
             fullLine = (height - 120) // 20
-            if len(content) >= fullLine:
-            	camBot = len(content)
+            if len(contentDisplay) >= fullLine:
+            	camBot = len(contentDisplay)
             	camTop = camBot - (fullLine - 1)
             else:
-            	camBot = len(content)
-            	camTop = 0
+                camBot = len(contentDisplay)
+                camTop = 0
+            currentLine = True
         elif event.type == pygame.QUIT: sys.exit()
         elif event.type == pygame.KEYDOWN:
             newChar = readChar()
@@ -224,19 +235,20 @@ while 1:
                 lstChar = list(contentLineCurrent)
                 lstChar.insert(posCursor, '|')
                 contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == (fullLine - 1):
-                    camBot = len(content)
-                    camTop = camBot - (fullLine - 1)
+                currentLine = True
             elif newChar == 'delall':
                 contentLineCurrent = ''
                 posCursor = 0
                 contentLineCurrentDisplay = '|'
+                currentLine = True
             elif newChar == 'begincur':
                 posCursor = 0
                 contentLineCurrentDisplay = '|' + contentLineCurrent
+                currentLine = True
             elif newChar == 'endcur':
                 posCursor = len(contentLineCurrent)
                 contentLineCurrentDisplay = contentLineCurrent + '|'
+                currentLine = True
             elif newChar == 'paste':
                 if canCopy:
                     paste = pyperclip.paste()
@@ -250,16 +262,15 @@ while 1:
                     contentLineCurrentDisplay = ''.join(lstChar)
                 else:
                     print('Require Pyperclip module for Paste.')
-            elif newChar == 'pageup':            
+                currentLine = True
+            elif newChar == 'pageup':    
                 if not len(listCommand) == 0:
                     if -len(listCommand) != indexListCommand:
                         indexListCommand -= 1
                         contentLineCurrent = listCommand[indexListCommand]
                         contentLineCurrentDisplay = contentLineCurrent + '|'
                         posCursor = len(contentLineCurrent)
-                if camBot - camTop == (fullLine - 1):
-                    camBot = len(content)
-                    camTop = camBot - (fullLine - 1)
+                currentLine = True
                 showCur = 0
             elif newChar == 'pagedown':
                 if not len(listCommand) == 0:
@@ -268,18 +279,17 @@ while 1:
                         contentLineCurrent = listCommand[indexListCommand]
                         contentLineCurrentDisplay = contentLineCurrent + '|'
                         posCursor = len(contentLineCurrent)
-                if camBot - camTop == (fullLine - 1):
-                    camBot = len(content)
-                    camTop = camBot - (fullLine - 1)
+                currentLine = True
                 showCur = 0
             elif newChar == 'kup':
                 if camTop != 0:
                     if camBot - camTop == (fullLine - 1):
                         camBot -= 1
                         camTop -= 1
+                        currentLine = False
                 showCur = 0
             elif newChar == 'kdown':
-                if camBot < len(content):
+                if camBot < len(contentDisplay):
                     camBot += 1
                     camTop += 1
                 showCur = 0
@@ -289,9 +299,7 @@ while 1:
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
                     contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == (fullLine - 1):
-                    camBot = len(content)
-                    camTop = camBot - (fullLine - 1)
+                currentLine = True
                 showCur = 0
             elif newChar == 'kleft':
                 if posCursor != 0:
@@ -299,10 +307,8 @@ while 1:
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
                     contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == (fullLine - 1):
-                    camBot = len(content)
-                    camTop = camBot - (fullLine - 1)
-                showCur = 0    
+                currentLine = True
+                showCur = 0
             elif newChar == 'backspace':
                 if len(contentLineCurrent) != 0 and posCursor != 0:
                     try:
@@ -316,16 +322,15 @@ while 1:
                     lstChar = list(contentLineCurrent)
                     lstChar.insert(posCursor, '|')
                     contentLineCurrentDisplay = ''.join(lstChar)
-                if camBot - camTop == (fullLine - 1):
-                    camBot = len(content)
-                    camTop = camBot - (fullLine - 1)
+                    currentLine = True
                 showCur = 0
             elif newChar == 'enter':
+                currentLine = True
                 indexListCommand = 0
                 if camBot - camTop == (fullLine - 1):
                     camTop += 1
                 camBot += 1
-                content.append([root, contentLineCurrent])
+                content.append([root + contentLineCurrent])
                 if contentLineCurrent.strip() == 'clear':
                     camTop = 0
                     camBot = 0
@@ -345,9 +350,6 @@ while 1:
                 posCursor = 0
                 contentLineCurrent = ''
                 contentLineCurrentDisplay = '|'
-                if camBot - camTop == (fullLine - 1):
-                    camBot = len(content)
-                    camTop = camBot - (fullLine - 1)
                 showCur = 0
     SCREEN.fill(BLACK)
     changeColor += 1
@@ -360,17 +362,35 @@ while 1:
         displayGrakT(colorCur)
     else:
         displayGrakT(colorCur)
-    for i in range(camTop, camBot):
-        displayText(SCREEN,''.join(content[i]), 1, 0, line * 20, WHITE)
-        line += 1
-    if camBot == len(content):
-        if showCur < 500:
-            displayText(SCREEN, root + contentLineCurrentDisplay, 1, 0, line * 20, WHITE)
+    contentDisplay = []
+    for i in range(len(content)):
+        text = ''.join(content[i])
+        if len(text) * 8 > width:
+            while len(text) * 8 > width:
+                textMini = text[:width // 8 - 1]
+                contentDisplay.append(textMini)
+                text = text.replace(textMini, '')
+            contentDisplay.append(text)
         else:
-            displayText(SCREEN, root + contentLineCurrent, 1, 0, line * 20, WHITE)
+            contentDisplay.append(text)
+    if currentLine:
+        if len(contentDisplay) >= fullLine:
+            camBot = len(contentDisplay)
+            camTop = camBot - (fullLine - 1)
+        else:
+            camBot = len(contentDisplay)
+            camTop = 0
+    for i in range(camTop, camBot):
+        displayText(contentDisplay[i], 1, 0, line * 20, WHITE)
+        line += 1
+    if camBot == len(contentDisplay):
+        if showCur < 500:
+            displayText(root + contentLineCurrentDisplay, 1, 0, line * 20, WHITE)
+        else:
+            displayText(root + contentLineCurrent, 1, 0, line * 20, WHITE)
         if showCur > 1000:
             showCur = 0
     else:
-        displayText(SCREEN,''.join(content[camBot]), 1, 0, line * 20, WHITE)
+        displayText(''.join(contentDisplay[camBot]), 1, 0, line * 20, WHITE)
     line = 0
     pygame.display.flip()
