@@ -55,16 +55,9 @@ def displayGrakT(colorCur):
 "| |_| | |    |   <_____| |          | | | | | | (_| | | | | | | |   | || |  | |_| | | | | (_| |",
 " \____|_|    |_|\_\    |_|  Nguyễn  |_| |_| |_|\__,_|_| |_|_| |_|   |_||_|   \__,_|_| |_|\__, |",
 "                                                                                         |___/"]
-    if not height < 140:
-        for line in bar:
-            label = myFont.render(line, 1, colorCur)
-            SCREEN.blit(label, (20, (fullLine * 20) + 20 * (bar.index(line))))
-    elif height > 20:
-        for line in bar:
-            if bar.index(line) * 20 + 20 > height:
-                break
-            label = myFont.render(line, 1, colorCur)
-            SCREEN.blit(label, (20, 20 + 20 * (bar.index(line))))        
+    for line in bar:
+        label = myFont.render(line, 1, colorCur)
+        SCREEN.blit(label, (20, (fullLine * 20) + 20 * (bar.index(line))))        
 
 def displayText(text, at, x, y, color, bg=None):
     if text.startswith('1f401268'):
@@ -204,6 +197,7 @@ def progressCommand(cmd):
         return ['%r not found.' %(cmd)]
 
 while 1:
+    fullLine = (height - 120) // 20
     if currentLine:
         if camBot - camTop == (fullLine - 1):
             camBot = len(contentDisplay)
@@ -214,6 +208,9 @@ while 1:
             width, height = pygame.display.get_surface().get_size()
             if width < 400:
                 width = 400
+                SCREEN = pygame.display.set_mode((width,height), HWSURFACE|DOUBLEBUF|RESIZABLE)
+            if height < 400:
+                height = 400
                 SCREEN = pygame.display.set_mode((width,height), HWSURFACE|DOUBLEBUF|RESIZABLE)
             fullLine = (height - 120) // 20
             if len(contentDisplay) >= fullLine:
@@ -371,7 +368,7 @@ while 1:
             while len(text) * 8 > width:
                 textMini = text[:width // 8 - 1]
                 contentDisplay.append(textMini)
-                text = text.replace(textMini, '')
+                text = text[width // 8 - 1:]
             contentDisplay.append(text)
         else:
             contentDisplay.append(text)
