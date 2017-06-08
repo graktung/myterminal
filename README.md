@@ -70,6 +70,6 @@
 		<li>"checkdir folder_name" -> check whether folder folder_name exist or not.</li>
 		<li>"checkf file_name" -> check whether file file_name exist or not.</li>
 		<li>"unzipall file_zip [path]" -> extract all file in file_zip into the path.</li>
-		<li>"unzip file_name file_zip [path] - > extract file_name in the file zip into the path</li>
+		<li>"unzip file_name file_zip [path] - > extract file_name in the file zip into the path.</li>
 	</ul>
 </div>
