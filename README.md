@@ -52,6 +52,9 @@
 		<li>"ls" -> List all the folders and the files at current working directory.</li>
 		<li>"pwd" -> Print the current working directory.</li>
 		<li>"cd new_working_directory" -> Change current working directory to new_working_directory.</li>
+	</ul>
+	<h4>Files And Folders Working</h4>
+	<ul>
 		<li>"move file_name/folder_name new_place" -> move the file or the folder to new_place.</li>
 		<li>"rename file_name/folder_name new_name" -> rename the file or the folder to new_name.</li>
 		<li>"rmf file_name" -> remove the file file_name.</li>

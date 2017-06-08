@@ -49,7 +49,7 @@ camBot = 0
 line = 0
 
 def displayGrakT(colorCur):
-    bar = ["  ____     /\ _       ______       _____ _      __         _       _____",
+    bar = ["  ____     /\ _       _____        _____ _      __         _       _____",
 " / ___|_ _|/\| | __  |_   _|      |_   _| |__   \_\_ _ __ | |__   |_   _| __ _   _ _ __   __ _ ",
 "| |  _| '__| | |/ /____| |          | | | '_ \ / _` | '_ \| '_ \    | || '__| | | | '_ \ / _` |",
 "| |_| | |    |   <_____| |          | | | | | | (_| | | | | | | |   | || |  | |_| | | | | (_| |",
@@ -139,6 +139,8 @@ def helpCommand():
     lstHelp.append(['"ls" -> List all the folders and the files at current working directory.'])
     lstHelp.append(['"pwd" -> Print the current working directory.'])
     lstHelp.append(['"cd new_working_directory" -> Change current working directory to new_working_directory.'])
+    lstHelp.append([])
+    lstHelp.append(["7084338aFiles And Folders Working"])
     lstHelp.append(['"move file_name/folder_name new_place" -> move the file or the folder to new_place.'])
     lstHelp.append(['"rename file_name/folder_name new_name" -> rename the file or the folder to new_name.'])
     lstHelp.append(['"rmf file_name" -> remove the file file_name.'])
