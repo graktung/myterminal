@@ -5,9 +5,11 @@ import zipfile
 def changePWD(newpath):
     try:
         os.chdir(newpath)
-        return 1
+        return []
     except:
-        return 0
+        path = getPWD() + f'\\{newpath}'
+        path = path.replace('\\', '/')
+        return ["1f401268Error!", "Cannot find path %r" %(path)]
 
 def getPWD():
     return os.getcwd()
@@ -21,56 +23,58 @@ def getList():
         lss.append("File  : " + file)
     return lss
 
-def move(path):
-    path = path.strip()
-    path = path.split()
+def move(_path):
+    _path = _path.strip()
+    _path = _path.split()
     try:
-        newpath = shutil.move(path[0], path[1])
-        return 1
+        newpath = shutil.move(_path[0], _path[1])
+        return []
     except:
-        return 0
+        return ["1f401268Error!", "Cannot find the file or path specified"]
 
 def rename(nameContent):
     nameContent = nameContent.strip()
     name, newname = nameContent.split()
     try:
         os.rename(name, newname)
-        return 1
+        return []
     except:
-        return 0
+        return ["1f401268Error!", "Cannot find the file or folder specified"]
 
 def removeFile(file):
     file = file.strip()
     try:
         os.unlink(file)
-        return 1
+        return []
     except:
-        return 0
+        return ["1f401268Error!", "Cannot find the file specified"]
 
 def removeDir(direc):
     direc = direc.strip()
     try:
         shutil.rmtree(direc)
-        return 1
+        return []
     except:
-        return 0
+        return ["1f401268Error!", "Cannot find the directory specified"]
 
 def makeDir(name):
     name = name.strip('\\/:*?"<>| ')
     try:
         os.makedirs(name)
-        return 1
+        return []
     except:
-        return 0
+        return ["1f401268Error!"]
 
 def makeFile(name):
     name = name.strip('\\/:*?"<>| ')
     try:
         with open(name, 'w') as f:
             f.close()
-        return 1
+        return []
+    except PermissionError:
+        return ['1f401268%r is exist' %(name)]
     except:
-        return 0
+        return ["1f401268Error!"]
 
 def getContent(name):
     try:
@@ -85,32 +89,32 @@ def getContent(name):
     except:
         return ["1f401268Error!", "Cannot find the file specified"]
 
-def checkPath(path):
+def checkPath(_path):
     try:
-        if os.path.exists(path):
-            return 1
+        if os.path.exists(r'{}'.format(_path)):
+            return ["7084338aValid path"]
         else:
-            return 0
+            return ["1f401268Invalid path"]
     except:
-        return 0
+        return ["1f401268Invalid path"]
 
-def checkDir(path):
+def checkDir(_path):
     try:
-        if os.path.isdir(path):
-            return 1
+        if os.path.isdir(r'{}'.format(_path)):
+            return ["7084338aDirectory is exist"]
         else:
-            return 0
+            return ["1f401268Directory is not exist"]
     except:
-        return 0
+        return ["1f401268Directory is not exist"]
 
-def checkFile(path):
+def checkFile(_path):
     try:
-        if os.path.isfile(path):
-            return 1
+        if os.path.isfile(r'{}'.format(_path)):
+            return ["7084338aFile is exist"]
         else:
-            return 0
+            return ["1f401268File is not exist"]
     except:
-        return 0
+        return ["1f401268File is not exist"]
 
 def unzipAll(content):
     content = content.split()

@@ -164,87 +164,43 @@ def progressCommand(cmd):
     elif cmd == 'help':
         return helpCommand()
     elif cmd == 'pwd':
-        path = directory.getPWD()
-        path = path.replace('\\', '/')
-        return [path]
+        return [directory.getPWD().replace('\\', '/')]
     elif cmd == 'ls':
         return directory.getList()
     elif cmd.startswith('cd '):
         direc = cmd[3:]
-        direc = direc.strip(' ')
-        isOK = directory.changePWD(direc)
-        if isOK:
-            return []
-        else:
-            path = directory.getPWD() + f'\\{direc}'
-            path = path.replace('\\', '/')
-            return ["1f401268Error!", "Cannot find path %r" %(path)]
+        direc = direc.strip()
+        return directory.changePWD(direc)
     elif cmd.startswith('move '):
         cmd = cmd[5:]
-        isOK = directory.move(cmd)
-        if isOK:
-            return []
-        else:
-            return ["1f401268Error!", "Cannot find the file or path specified"]
+        return directory.move(cmd)
     elif cmd.startswith('rename '):
         cmd = cmd[7:]
-        isOK = directory.rename(cmd)
-        if isOK:
-            return []
-        else:
-            return ["1f401268Error!", "Cannot find the file or folder specified"]
+        return directory.rename(cmd)
     elif cmd.startswith('rmf '):
         cmd = cmd[4:]
-        isOK = directory.removeFile(cmd)
-        if isOK:
-            return []
-        else:
-            return ["1f401268Error!", "Cannot find the file specified"]
+        return directory.removeFile(cmd)
     elif cmd.startswith('rmdir '):
         cmd = cmd[6:]
-        isOK = directory.removeDir(cmd)
-        if isOK:
-            return []
-        else:
-            return ["1f401268Error!", "Cannot find the directory specified"]
+        return directory.removeDir(cmd) 
     elif cmd.startswith('mkdir '):
         cmd = cmd[6:]
-        isOK = directory.makeDir(cmd)
-        if isOK:
-            return []
-        else:
-            return ["1f401268Error!"]
+        return directory.makeDir(cmd)
     elif cmd.startswith('mkf '):
         cmd = cmd[4:]
-        isOK = directory.makeFile(cmd)
-        if isOK:
-            return []
-        else:
-            return ["1f401268Error!"]
+        return directory.makeFile(cmd)
     elif cmd.startswith('get content '):
         cmd = cmd[12:]
         return directory.getContent(cmd)
     elif cmd.startswith('checkpath '):
         cmd = cmd[10:]
-        isOK = directory.checkPath(cmd)
-        if isOK:
-            return ["7084338aValid path"]
-        else:
-            return ["1f401268Invalid path"]
+        return directory.checkPath(cmd)
     elif cmd.startswith('checkdir '):
         cmd = cmd[9:]
-        isOK = directory.checkDir(cmd)
-        if isOK:
-            return ["7084338aDirectory is exist"]
-        else:
-            return ["1f401268Directory is not exist"]
+        return directory.checkDir(cmd)
     elif cmd.startswith('checkf '):
         cmd = cmd[7:]
-        isOK = directory.checkFile(cmd)
-        if isOK:
-            return ["7084338aFile is exist"]
-        else:
-            return ["1f401268File is not exist"]
+        return directory.checkFile(cmd)
     elif cmd.startswith('unzipall '):
         cmd = cmd[9:]
         return directory.unzipAll(cmd)
