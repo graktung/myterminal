@@ -116,6 +116,55 @@ def checkFile(_path):
     except:
         return ["1f401268File is not exist"]
 
+def zipLS(content):
+    try:
+        zipFile = zipfile.ZipFile(content)
+        lst = zipFile.namelist()
+        zipFile.close()
+        return lst
+    except FileNotFoundError:
+        return ['1f401268File %r Not Found' %(content)]
+    except zipfile.BadZipFile:
+        return ['1f401268File %r is not a zip file' %(content)]
+    except:
+        return ['Something went wrong when trying to handle file %r' %(content)]
+
+def zipGetFileSize(content):
+    content = content.split()
+    if len(content) > 1:
+        try:
+            zipFile = zipfile.ZipFile(content[1])
+            infoOfFile = zipFile.getinfo(content[0])
+            zipFile.close()
+            return [str(infoOfFile.file_size) + ' KB']
+        except FileNotFoundError:
+            return ['1f401268File %r Not Found' %(content[1])]
+        except zipfile.BadZipFile:
+            return ['1f401268File %r is not a zip file' %(content[1])]
+        except:
+            return ['Something went wrong when trying to handel file %r' %(content[1])]
+    else:
+        return ['zip getfilesize item file_zip']
+
+def zipGetComSize(content):
+    content = content.split()
+    if len(content) > 1:
+        try:
+            zipFile = zipfile.ZipFile(content[1])
+            infoOfFile = zipFile.getinfo(content[0])
+            zipFile.close()
+            return [str(infoOfFile.compress_size) + ' KB']
+        except FileNotFoundError:
+            return ['1f401268File %r Not Found' %(content[1])]
+        except zipfile.BadZipFile:
+            return ['1f401268File %r is not a zip file' %(content[1])]
+        except KeyError:
+            return ['1f401268There no item named %r in the archive' %(content[0])]
+        except:
+            return ['Something went wrong when trying to handel file %r' %(content[1])]
+    else:
+        return ['zip getfilesize item file_zip']
+
 def unzipAll(content):
     content = content.split()
     if len(content) == 2:

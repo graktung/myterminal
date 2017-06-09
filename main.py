@@ -148,8 +148,11 @@ def helpCommand():
     lstHelp.append(['"checkpath path" -> check whether path valid or not'])
     lstHelp.append(['"checkdir folder_name" -> check whether folder folder_name exist or not'])
     lstHelp.append(['"checkf file_name" -> check whether file file_name exist or not'])
+    lstHelp.append(['"zip ls file_zip" -> get the list in file_zip'])
+    lstHelp.append(['"zip getfilesize item file_zip" -> get file size of item in file_zip'])
+    lstHelp.append(['"zip getcomsize item file_zip" -> get compress size of item in file_zip'])
     lstHelp.append(['"unzipall file_zip [path]" -> extract all file in file_zip into the path'])
-    lstHelp.append(['"unzip file_name file_zip [path] - > extract file_name in the file zip into the path'])
+    lstHelp.append(['"unzip item file_zip [path] - > extract item in the file zip into the path'])
     lstHelp.append([])
     lstHelp.append(['36ac99f1More information: https://github.com/graktung/myterminal'])
     lstHelp.append([])
@@ -201,6 +204,15 @@ def progressCommand(cmd):
     elif cmd.startswith('checkf '):
         cmd = cmd[7:]
         return directory.checkFile(cmd)
+    elif cmd.startswith('zip ls '):
+        cmd = cmd[7:]
+        return directory.zipLS(cmd)
+    elif cmd.startswith('zip getfilesize '):
+        cmd = cmd[16:]
+        return directory.zipGetFileSize(cmd)
+    elif cmd.startswith('zip getcomsize '):
+        cmd = cmd[15:]
+        return directory.zipGetComSize(cmd)
     elif cmd.startswith('unzipall '):
         cmd = cmd[9:]
         return directory.unzipAll(cmd)

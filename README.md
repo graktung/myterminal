@@ -85,7 +85,10 @@
 		<li>"checkpath path" -> check whether path valid or not.</li>
 		<li>"checkdir folder_name" -> check whether folder folder_name exist or not.</li>
 		<li>"checkf file_name" -> check whether file file_name exist or not.</li>
+		<li>"zip ls file_zip" -> get the list in file_zip.</li>
+		<li>"zip getfilesize item file_zip" -> get file size of item in file_zip.</li>
+		<li>"zip getcomsize item file_zip" -> get compress size of item in file_zip.</li>
 		<li>"unzipall file_zip [path]" -> extract all file in file_zip into the path.</li>
-		<li>"unzip file_name file_zip [path] - > extract file_name in the file zip into the path.</li>
+		<li>"unzip item file_zip [path] - > extract item in the file zip into the path.</li>
 	</ul>
 </div>
