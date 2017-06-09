@@ -88,6 +88,7 @@
 		<li>"zip ls file_zip" -> get the list in file_zip.</li>
 		<li>"zip getfilesize item file_zip" -> get file size of item in file_zip.</li>
 		<li>"zip getcomsize item file_zip" -> get compress size of item in file_zip.</li>
+		<li>"zip file/folder_name file_zip" -> create a zip file from file/folder_name.</li>
 		<li>"unzipall file_zip [path]" -> extract all file in file_zip into the path.</li>
 		<li>"unzip item file_zip [path] - > extract item in the file zip into the path.</li>
 	</ul>

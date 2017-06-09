@@ -153,6 +153,7 @@ def helpCommand():
     lstHelp.append(['"zip getcomsize item file_zip" -> get compress size of item in file_zip'])
     lstHelp.append(['"unzipall file_zip [path]" -> extract all file in file_zip into the path'])
     lstHelp.append(['"unzip item file_zip [path] - > extract item in the file zip into the path'])
+    lstHelp.append(['"zip file/folder_name file_zip" -> create a zip file from file/folder_name'])
     lstHelp.append([])
     lstHelp.append(['36ac99f1More information: https://github.com/graktung/myterminal'])
     lstHelp.append([])
@@ -213,6 +214,9 @@ def progressCommand(cmd):
     elif cmd.startswith('zip getcomsize '):
         cmd = cmd[15:]
         return directory.zipGetComSize(cmd)
+    elif cmd.startswith('zip '):
+        cmd = cmd[4:]
+        return directory.createZip(cmd)
     elif cmd.startswith('unzipall '):
         cmd = cmd[9:]
         return directory.unzipAll(cmd)

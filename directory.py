@@ -165,6 +165,36 @@ def zipGetComSize(content):
     else:
         return ['zip getfilesize item file_zip']
 
+def createZip(content):
+    content = content.split()
+    if len(content) > 1:
+        if checkFile(content[1]) == ["7084338aFile is exist"]:
+            return ["7084338aFile %r is already exist" %(content[1])]
+        else:
+            try:
+                if checkDir(content[0]) == ["7084338aDirectory is exist"]:
+                    try:
+                        content[1] = content[1].replace('.zip', '')
+                        shutil.make_archive(content[1], 'zip', content[0])
+                        return []
+                    except NotADirectoryError:
+                        return ['The directory name is invalid %r' %(content[0])]
+                    except:
+                        retunr ['Something went wrong when trying to zip %r' %(content[0])]
+                else:
+                    try:
+                        zipf = zipfile.ZipFile(content[1], 'w', zipfile.ZIP_DEFLATED)
+                        zipf.write(content[0])
+                        zipf.close()
+                        return []
+                    except:
+                        return ['Something went wrong when trying to zip %r' %(content[0])]                
+            except:
+                return ['Something went wrong when trying to zip %r' %(content[0])]
+
+    else:
+        return ['zip file/folder_name file_zip']
+
 def unzipAll(content):
     content = content.split()
     if len(content) == 2:
