@@ -65,7 +65,7 @@
 	<h4>Terminal Working</h4>
 	<ul>
 		<li>"exit" -> stop Terminal from working.</li>
-		<li>"clear" -> clear all command lines which is displayed in Terminal.</li>		
+		<li>"clear" -> clear all command lines which is displayed on Terminal.</li>		
 	</ul>
 	<h4>Directory Working</h4>
 	<ul>
